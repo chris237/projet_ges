@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Odoo
+*.log
+*.pot
+filestore/
+postgresql/
+
+# IDE / env
+.vscode/
+.env
+
