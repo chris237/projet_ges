@@ -4,5 +4,7 @@ projet_op_admin,projet_op_admin,model_gespros_project,ope_admin,1,1,1,0
 projet_op_user,projet_op_user,model_gespros_project,ope_user,1,0,0,0
 projet_ship_admin,projet_ship_admin,model_gespros_project,ship_admin,1,1,1,0
 projet_ship_user,projet_ship_user,model_gespros_project,ship_user,1,0,0,0
+projet_lcl_admin,projet_lcl_admin,model_gespros_project,lcl_admin,1,1,1,0
+projet_lcl_user,projet_lcl_user,model_gespros_project,lcl_user,1,0,0,0
 projet_admin_admin,projet_admin_admin,model_gespros_project,admin_admin,1,1,1,0
 projet_admin_user,projet_admin_user,model_gespros_project,admin_user,1,0,0,0

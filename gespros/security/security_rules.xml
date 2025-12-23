@@ -26,6 +26,16 @@
         <field name="comment">the user will have access to the shipping dossiers.</field>
     </record>
 
+    <record id="lcl_admin" model="res.groups">
+        <field name="name">LCL Admin</field>
+        <field name="comment">the user will have access to the LCL dossiers.</field>
+    </record>
+
+    <record id="lcl_user" model="res.groups">
+        <field name="name">LCL User</field>
+        <field name="comment">the user will have access to the LCL dossiers.</field>
+    </record>
+
     <record id="admin_admin" model="res.groups">
         <field name="name">Administration Admin</field>
         <field name="comment">the user will have access to the administration dossiers.</field>
@@ -37,9 +47,9 @@
     </record>
 
     <record id="rule_project_operations" model="ir.rule">
-        <field name="name">Projets - Operations &amp; LCL</field>
+        <field name="name">Projets - Operations</field>
         <field name="model_id" ref="model_gespros_project"/>
-        <field name="domain_force">[('Type_d', 'in', ['operations', 'lcl'])]</field>
+        <field name="domain_force">[('Type_d', '=', 'operations')]</field>
         <field name="groups" eval="[(4, ref('gespros.ope_admin')), (4, ref('gespros.ope_user'))]"/>
     </record>
 
@@ -48,6 +58,13 @@
         <field name="model_id" ref="model_gespros_project"/>
         <field name="domain_force">[('Type_d', '=', 'shipping')]</field>
         <field name="groups" eval="[(4, ref('gespros.ship_admin')), (4, ref('gespros.ship_user'))]"/>
+    </record>
+
+    <record id="rule_project_lcl" model="ir.rule">
+        <field name="name">Projets - LCL</field>
+        <field name="model_id" ref="model_gespros_project"/>
+        <field name="domain_force">[('Type_d', '=', 'lcl')]</field>
+        <field name="groups" eval="[(4, ref('gespros.lcl_admin')), (4, ref('gespros.lcl_user'))]"/>
     </record>
 
     <record id="rule_project_administration" model="ir.rule">
