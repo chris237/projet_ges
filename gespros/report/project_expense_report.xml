@@ -156,7 +156,7 @@
                             <tbody>
                                 <t t-foreach="doc.line_ids" t-as="line">
                                     <tr>
-                                        <td><span t-esc="loop.index"/></td>
+                                        <td><span t-esc="(index or 0) + 1"/></td>
                                         <td><span t-esc="line.product_id.display_name or ''"/></td>
                                         <td><span t-esc="line.name"/></td>
                                         <td><span t-esc="line.employee_id.name or ''"/></td>
