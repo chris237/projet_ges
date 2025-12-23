@@ -26,15 +26,15 @@
         <field name="arch" type="xml">
             <form string="Projet">
                 <header>
-                    <button name="confirm" string="Valider" type="object" groups="gespros.ope_admin, gespros.ship_admin, gespros.admin_admin"
+                    <button name="confirm" string="Valider" type="object" groups="gespros.ope_admin, gespros.ship_admin, gespros.lcl_admin, gespros.admin_admin"
                             class="oe_highlight o_expense_submit" invisible="state != 'draft'"/>
-                    <button name="cancel" string="Annuler" groups="gespros.ope_admin, gespros.ship_admin, gespros.admin_admin" type="object" invisible="state == 'done'"/>
-                    <button name="reset_to_draft" string="Brouilllons" groups="gespros.admin_u, gespros.ope_admin, gespros.ship_admin, gespros.admin_admin" type="object" invisible="state != 'draft'"/>
-                    <button name="close" string="Termier" type="object" groups="gespros.ope_admin, gespros.ship_admin, gespros.admin_admin" invisible="state != 'in_progress'"/>
+                    <button name="cancel" string="Annuler" groups="gespros.ope_admin, gespros.ship_admin, gespros.lcl_admin, gespros.admin_admin" type="object" invisible="state == 'done'"/>
+                    <button name="reset_to_draft" string="Brouilllons" groups="gespros.admin_u, gespros.ope_admin, gespros.ship_admin, gespros.lcl_admin, gespros.admin_admin" type="object" invisible="state != 'draft'"/>
+                    <button name="close" string="Termier" type="object" groups="gespros.ope_admin, gespros.ship_admin, gespros.lcl_admin, gespros.admin_admin" invisible="state != 'in_progress'"/>
                     <button name="%(action_report_project_expenses)d"
                             string="Imprimer les dépenses"
                             type="action"
-                            groups="gespros.admin_u,gespros.ope_admin,gespros.ope_user,gespros.ship_admin,gespros.ship_user,gespros.admin_admin,gespros.admin_user"/>
+                            groups="gespros.admin_u,gespros.ope_admin,gespros.ope_user,gespros.ship_admin,gespros.ship_user,gespros.lcl_admin,gespros.lcl_user,gespros.admin_admin,gespros.admin_user"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -161,8 +161,9 @@
             <search string="Operations">
                 <field name="num_d"/>
                 <field name="client_id"/>
-                <filter string="Opérations &amp; LCL" name="type_operations" domain="[('Type_d', 'in', ['operations', 'lcl'])]"/>
+                <filter string="Opérations" name="type_operations" domain="[('Type_d', '=', 'operations')]"/>
                 <filter string="Shipping" name="type_shipping" domain="[('Type_d', '=', 'shipping')]"/>
+                <filter string="LCL" name="type_lcl" domain="[('Type_d', '=', 'lcl')]"/>
                 <filter string="Administration" name="type_administration" domain="[('Type_d', '=', 'administration')]"/>
                 <newline/>
                 <group expand="0" string="Group By...">
@@ -197,7 +198,7 @@
         <field name="name">Gestion des Opérations</field>
         <field name="res_model">gespros.project</field>
         <field name="view_mode">list,form,kanban</field>
-        <field name="domain">[('Type_d', 'in', ['operations', 'lcl'])]</field>
+        <field name="domain">[('Type_d', '=', 'operations')]</field>
         <field name="context">{'default_Type_d': 'operations'}</field>
         <field name="search_view_id" ref="view_gespros_project_filter"/>
     </record>
@@ -208,6 +209,15 @@
         <field name="view_mode">list,form,kanban</field>
         <field name="domain">[('Type_d', '=', 'shipping')]</field>
         <field name="context">{'default_Type_d': 'shipping'}</field>
+        <field name="search_view_id" ref="view_gespros_project_filter"/>
+    </record>
+
+    <record id="action_gespros_project_lcl" model="ir.actions.act_window">
+        <field name="name">Gestion du LCL</field>
+        <field name="res_model">gespros.project</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[('Type_d', '=', 'lcl')]</field>
+        <field name="context">{'default_Type_d': 'lcl'}</field>
         <field name="search_view_id" ref="view_gespros_project_filter"/>
     </record>
 
