@@ -36,12 +36,14 @@
                             </t>
                         </tbody>
                         <tfoot>
+                            <t t-set="total_amount" t-value="sum(doc.line_ids.mapped('total_amount'))"/>
                             <tr>
                                 <td colspan="3" class="text-end">
                                     <strong>Total</strong>
                                 </td>
                                 <td class="text-end">
-                                    <span t-esc="format_amount(doc.env, sum(doc.line_ids.mapped('total_amount')), doc.currency_id)"/>
+                                    <span t-esc="total_amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                 </td>
                             </tr>
                         </tfoot>
