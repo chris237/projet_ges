@@ -1,33 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="report_project_expenses">
-        <t t-call="web.external_layout">
+        <t t-call="web.basic_layout">
             <main>
+                <style>
+                    .gespros-title {
+                        color: #0F2A44;
+                        font-size: 24px;
+                        font-weight: 700;
+                        margin: 0;
+                        text-align: center;
+                    }
+                    .gespros-subtitle {
+                        font-size: 15px;
+                        font-weight: 600;
+                        margin: 4px 0 16px;
+                        text-align: center;
+                    }
+                    .gespros-header {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 20px;
+                        margin-bottom: 12px;
+                    }
+                    .gespros-header__left,
+                    .gespros-header__right {
+                        font-size: 11px;
+                        line-height: 1.4;
+                    }
+                    .gespros-header__left strong {
+                        font-size: 12px;
+                    }
+                    .gespros-divider {
+                        border-top: 1px solid #E5E7EB;
+                        margin: 8px 0 18px;
+                    }
+                    .gespros-info {
+                        background-color: #F2F4F7;
+                        padding: 12px;
+                        border-radius: 4px;
+                        margin-bottom: 16px;
+                        font-size: 12px;
+                    }
+                    .gespros-info table {
+                        width: 100%;
+                    }
+                    .gespros-info td {
+                        padding: 4px 6px;
+                    }
+                    .gespros-expenses {
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-size: 12px;
+                    }
+                    .gespros-expenses thead th {
+                        background-color: #0F2A44;
+                        color: #FFFFFF;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    .gespros-expenses td {
+                        padding: 8px;
+                        border-bottom: 1px solid #E5E7EB;
+                    }
+                    .gespros-expenses tbody tr:nth-child(even) {
+                        background-color: #F2F4F7;
+                    }
+                    .text-end {
+                        text-align: right;
+                    }
+                    .gespros-total {
+                        margin-top: 12px;
+                        display: flex;
+                        justify-content: flex-end;
+                    }
+                    .gespros-total__box {
+                        background-color: #F2F4F7;
+                        padding: 10px 14px;
+                        font-size: 16px;
+                        font-weight: 700;
+                        border-radius: 4px;
+                    }
+                    .gespros-signatures {
+                        margin-top: 24px;
+                        width: 100%;
+                        font-size: 12px;
+                    }
+                    .gespros-signatures th {
+                        text-align: left;
+                        padding-bottom: 6px;
+                    }
+                    .gespros-signatures td {
+                        padding-top: 24px;
+                    }
+                </style>
                 <t t-foreach="docs" t-as="doc">
                     <div class="page">
-                        <h2>Liste des dépenses - Dossier <span t-esc="doc.num_d"/></h2>
-                        <p>
-                            <strong>Client:</strong>
-                            <span t-esc="doc.client_id.display_name or ''"/>
-                        </p>
-                        <p>
-                            <strong>Type de dossier:</strong>
-                            <span t-esc="dict(doc._fields['Type_d'].selection).get(doc.Type_d, '')"/>
-                        </p>
-                        <table class="table table-sm o_main_table">
+                        <div class="gespros-header">
+                            <div class="gespros-header__left">
+                                <div>
+                                    <t t-if="doc.company_id.logo">
+                                        <img t-att-src="image_data_uri(doc.company_id.logo)"
+                                             alt="GESPROS"
+                                             style="max-height: 60px; margin-bottom: 6px;"/>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>[ LOGO GESPROS ]</strong>
+                                    </t>
+                                </div>
+                                <strong>GESPROS SA</strong><br/>
+                                46 Rue Joffre Akwa – Face ancien Hôtel le LIDO<br/>
+                                2ᵉ étage, Imm. YAYA BELO – Porte Verte<br/>
+                                Douala – Cameroun<br/>
+                                N° Contribuable : M011612468050H
+                            </div>
+                            <div class="gespros-header__right">
+                                📧 it@gesprosgroup.com<br/>
+                                🌐 https://gesprosgroup.com<br/>
+                                📞 +237 XXX XXX XXX
+                            </div>
+                        </div>
+                        <div class="gespros-divider"></div>
+
+                        <h2 class="gespros-title">LISTE DES DÉPENSES</h2>
+                        <div class="gespros-subtitle">Dossier N° <span t-esc="doc.num_d"/></div>
+
+                        <div class="gespros-info">
+                            <table>
+                                <tr>
+                                    <td><strong>Client</strong></td>
+                                    <td><span t-esc="doc.client_id.display_name or ''"/></td>
+                                    <td><strong>Type de dossier</strong></td>
+                                    <td><span t-esc="dict(doc._fields['Type_d'].selection).get(doc.Type_d, '')"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date</strong></td>
+                                    <td><span t-field="doc.date"/></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <table class="gespros-expenses">
                             <thead>
                                 <tr>
-                                    <th>Description</th>
+                                    <th>N°</th>
                                     <th>Catégorie</th>
+                                    <th>Description</th>
+                                    <th>Employé</th>
                                     <th class="text-end">Quantité</th>
-                                    <th class="text-end">Montant</th>
+                                    <th class="text-end">Montant (FCFA)</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="doc.line_ids" t-as="line">
+                                <t t-foreach="doc.line_ids" t-as="line" t-foreach-index="index">
                                     <tr>
-                                        <td><span t-esc="line.name"/></td>
+                                        <td><span t-esc="index + 1"/></td>
                                         <td><span t-esc="line.product_id.display_name or ''"/></td>
+                                        <td><span t-esc="line.name"/></td>
+                                        <td><span t-esc="line.employee_id.name or ''"/></td>
                                         <td class="text-end"><span t-esc="line.quantity"/></td>
                                         <td class="text-end">
                                             <span t-field="line.total_amount"
@@ -36,18 +168,32 @@
                                     </tr>
                                 </t>
                             </tbody>
-                            <tfoot>
-                                <t t-set="total_amount" t-value="sum(doc.line_ids.mapped('total_amount'))"/>
+                        </table>
+
+                        <t t-set="total_amount" t-value="sum(doc.line_ids.mapped('total_amount'))"/>
+                        <div class="gespros-total">
+                            <div class="gespros-total__box">
+                                TOTAL GÉNÉRAL :
+                                <span t-esc="total_amount"
+                                      t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
+                            </div>
+                        </div>
+
+                        <table class="gespros-signatures">
+                            <thead>
                                 <tr>
-                                    <td colspan="3" class="text-end">
-                                        <strong>Total</strong>
-                                    </td>
-                                    <td class="text-end">
-                                        <span t-esc="total_amount"
-                                              t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
-                                    </td>
+                                    <th>Établi par</th>
+                                    <th>Validé par</th>
+                                    <th>Date</th>
                                 </tr>
-                            </tfoot>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nom + signature</td>
+                                    <td>Nom + signature</td>
+                                    <td>JJ/MM/AAAA</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </t>
