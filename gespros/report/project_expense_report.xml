@@ -2,54 +2,56 @@
 <odoo>
     <template id="report_project_expenses">
         <t t-call="web.external_layout">
-            <t t-foreach="docs" t-as="doc">
-                <div class="page">
-                    <h2>Liste des dépenses - Dossier <span t-esc="doc.num_d"/></h2>
-                    <p>
-                        <strong>Client:</strong>
-                        <span t-esc="doc.client_id.display_name or ''"/>
-                    </p>
-                    <p>
-                        <strong>Type de dossier:</strong>
-                        <span t-esc="dict(doc._fields['Type_d'].selection).get(doc.Type_d, '')"/>
-                    </p>
-                    <table class="table table-sm o_main_table">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Catégorie</th>
-                                <th class="text-end">Quantité</th>
-                                <th class="text-end">Montant</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="doc.line_ids" t-as="line">
+            <main>
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <h2>Liste des dépenses - Dossier <span t-esc="doc.num_d"/></h2>
+                        <p>
+                            <strong>Client:</strong>
+                            <span t-esc="doc.client_id.display_name or ''"/>
+                        </p>
+                        <p>
+                            <strong>Type de dossier:</strong>
+                            <span t-esc="dict(doc._fields['Type_d'].selection).get(doc.Type_d, '')"/>
+                        </p>
+                        <table class="table table-sm o_main_table">
+                            <thead>
                                 <tr>
-                                    <td><span t-esc="line.name"/></td>
-                                    <td><span t-esc="line.product_id.display_name or ''"/></td>
-                                    <td class="text-end"><span t-esc="line.quantity"/></td>
+                                    <th>Description</th>
+                                    <th>Catégorie</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th class="text-end">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.line_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-esc="line.name"/></td>
+                                        <td><span t-esc="line.product_id.display_name or ''"/></td>
+                                        <td class="text-end"><span t-esc="line.quantity"/></td>
+                                        <td class="text-end">
+                                            <span t-field="line.total_amount"
+                                                  t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <t t-set="total_amount" t-value="sum(doc.line_ids.mapped('total_amount'))"/>
+                                <tr>
+                                    <td colspan="3" class="text-end">
+                                        <strong>Total</strong>
+                                    </td>
                                     <td class="text-end">
-                                        <span t-field="line.total_amount"
-                                              t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                        <span t-esc="total_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
                                     </td>
                                 </tr>
-                            </t>
-                        </tbody>
-                        <tfoot>
-                            <t t-set="total_amount" t-value="sum(doc.line_ids.mapped('total_amount'))"/>
-                            <tr>
-                                <td colspan="3" class="text-end">
-                                    <strong>Total</strong>
-                                </td>
-                                <td class="text-end">
-                                    <span t-esc="total_amount"
-                                          t-options="{'widget': 'monetary', 'display_currency': doc.currency_id}"/>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </t>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </main>
         </t>
     </template>
 
