@@ -22,6 +22,7 @@
                    invisible="type_d != 'administration'"/>
             <field name="proj_id" options="{'no_create': True}"
                    string="Projet"
+                   required="1"
                    domain="[('state', '=', 'in_progress'), ('Type_d', '=', type_d)]" />
         </field>
     </field>
@@ -36,6 +37,7 @@
         <field name="payment_mode" position="after">
             <field name="proj_id" options="{'no_create': True}"
                    string="Projet"
+                   required="1"
                    domain="[('state','=','in_progress')]" />
         </field>
     </field>
