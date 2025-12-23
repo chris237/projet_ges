@@ -31,6 +31,10 @@
                     <button name="cancel" string="Annuler" groups="gespros.ope_admin, gespros.ship_admin, gespros.admin_admin" type="object" invisible="state == 'done'"/>
                     <button name="reset_to_draft" string="Brouilllons" groups="gespros.admin_u, gespros.ope_admin, gespros.ship_admin, gespros.admin_admin" type="object" invisible="state != 'draft'"/>
                     <button name="close" string="Termier" type="object" groups="gespros.ope_admin, gespros.ship_admin, gespros.admin_admin" invisible="state != 'in_progress'"/>
+                    <button name="%(action_report_project_expenses)d"
+                            string="Imprimer les dépenses"
+                            type="action"
+                            groups="gespros.admin_u,gespros.ope_admin,gespros.ope_user,gespros.ship_admin,gespros.ship_user,gespros.admin_admin,gespros.admin_user"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
