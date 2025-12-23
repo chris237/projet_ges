@@ -54,6 +54,8 @@
     <record id="action_report_project_expenses" model="ir.actions.report">
         <field name="name">Liste des dépenses</field>
         <field name="model">gespros.project</field>
+        <field name="binding_model_id" ref="model_gespros_project"/>
+        <field name="binding_type">report</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">gespros.report_project_expenses</field>
         <field name="report_file">gespros.report_project_expenses</field>
