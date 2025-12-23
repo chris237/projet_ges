@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_project_expenses">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h2>Liste des dépenses - Dossier <span t-esc="doc.num_d"/></h2>
+                    <p>
+                        <strong>Client:</strong>
+                        <span t-esc="doc.client_id.display_name or ''"/>
+                    </p>
+                    <p>
+                        <strong>Type de dossier:</strong>
+                        <span t-esc="dict(doc._fields['Type_d'].selection).get(doc.Type_d, '')"/>
+                    </p>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Catégorie</th>
+                                <th class="text-end">Quantité</th>
+                                <th class="text-end">Montant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.line_ids" t-as="line">
+                                <tr>
+                                    <td><span t-esc="line.name"/></td>
+                                    <td><span t-esc="line.product_id.display_name or ''"/></td>
+                                    <td class="text-end"><span t-esc="line.quantity"/></td>
+                                    <td class="text-end">
+                                        <span t-field="line.total_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end">
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="format_amount(doc.env, sum(doc.line_ids.mapped('total_amount')), doc.currency_id)"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_project_expenses" model="ir.actions.report">
+        <field name="name">Liste des dépenses</field>
+        <field name="model">gespros.project</field>
+        <field name="binding_model_id" ref="model_gespros_project"/>
+        <field name="binding_type">report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gespros.report_project_expenses</field>
+        <field name="report_file">gespros.report_project_expenses</field>
+        <field name="print_report_name">'Dossier - %s' % (object.num_d)</field>
+    </record>
+</odoo>

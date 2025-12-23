@@ -151,7 +151,11 @@ class Projets(models.Model):
 class HrExpense(models.Model):
     _inherit = "hr.expense"
 
-    proj_id = fields.Many2one("gespros.project", string='Dossier N')
+    proj_id = fields.Many2one(
+        "gespros.project",
+        string='Dossier N',
+        required=True,
+    )
 
     type_d = fields.Selection(
         TYPE_D_SELECTION,
@@ -178,9 +182,12 @@ class HrExpense(models.Model):
 class HrExpenseSheet(models.Model):
     _inherit = "hr.expense.sheet"
 
-    proj_id = fields.Many2one("gespros.project", string='Dossier N',
-                            #   compute = '_proj_c',
-                              )
+    proj_id = fields.Many2one(
+        "gespros.project",
+        string='Dossier N',
+        required=True,
+        # compute = '_proj_c',
+    )
 
     type_d = fields.Selection(
         TYPE_D_SELECTION,
